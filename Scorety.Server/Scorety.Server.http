@@ -1,0 +1,6 @@
+@Scorety.Server_HostAddress = http://localhost:5173
+
+GET {{Scorety.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
