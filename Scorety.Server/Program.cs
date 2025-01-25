@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Scorety.Server.Data;
 using Scorety.Server.Data.Repositories.Interfaces;
 using Scorety.Server.Data.Repositories.Implementations;
+using Scorety.Server.Services.Interfaces;
+using Scorety.Server.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ISportRepository, SportRepository>();
+builder.Services.AddScoped<ISportService, SportService>();
 
 var app = builder.Build();
 
