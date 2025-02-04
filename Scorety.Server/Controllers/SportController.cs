@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Scorety.Server.DTOs;
 using Scorety.Server.Models;
 using Scorety.Server.Services.Interfaces;
@@ -17,7 +19,7 @@ namespace Scorety.Server.Controllers
             _sportService = sportService;
         }
 
-        [HttpGet] // GET api/sports
+        [HttpGet]
         [ProducesResponseType(typeof(List<SportDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<List<SportDto>>> GetAllSports()
         {
@@ -33,7 +35,7 @@ namespace Scorety.Server.Controllers
             }
         }
 
-        [HttpGet("{id}")] // GET api/sports/{id}
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SportDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SportDto>> GetById(Guid id)
@@ -41,8 +43,9 @@ namespace Scorety.Server.Controllers
             try
             {
                 var sport = await _sportService.GetSportByIdAsync(id);
+
                 if (sport == null)
-                    return NotFound();
+                    return NotFound($"Sport with ID {id} not found.");
 
                 return Ok(sport);
             }
@@ -53,14 +56,21 @@ namespace Scorety.Server.Controllers
             }
         }
 
-        [HttpPost] // POST api/sports
+        [HttpPost]
         [ProducesResponseType(typeof(CreateSportDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Sport>> CreateSport([FromBody] CreateSportDto sportDto)
+        public async Task<ActionResult<CreateSportDto>> CreateSport([FromBody] CreateSportDto sportDto)
         {
+            if (sportDto == null)
+                return BadRequest("Sport data cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
                 var createdSport = await _sportService.CreateSportAsync(sportDto);
+
                 return CreatedAtAction(nameof(GetById), new { id = createdSport.Id }, createdSport);
             }
             catch (Exception ex)
@@ -70,21 +80,22 @@ namespace Scorety.Server.Controllers
             }
         }
 
-        [HttpPut("{id}")] // PUT api/sports/{id}
-        [ProducesResponseType(typeof(Sport), StatusCodes.Status200OK)]
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(UpdateSportDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Sport>> UpdateSport(Guid id, [FromBody] UpdateSportDto sportDto)
+        public async Task<ActionResult<UpdateSportDto>> UpdateSport(Guid id, [FromBody] UpdateSportDto sportDto)
         {
+            if (id == Guid.Empty || !ModelState.IsValid)
+                return BadRequest();
+
             try
             {
-                if (id == Guid.Empty)
-                    return BadRequest();
+                var updatedSport = await _sportService.UpdateSportAsync(id, sportDto);
 
-                var existingSport = await _sportService.GetSportByIdAsync(id);
-                if (existingSport == null)
+                if (updatedSport == null)
                     return NotFound($"Sport with ID {id} not found.");
 
-                var updatedSport = await _sportService.UpdateSportAsync(id, sportDto);
                 return Ok(updatedSport);
             }
             catch (Exception ex)
@@ -94,17 +105,46 @@ namespace Scorety.Server.Controllers
             }
         }
 
-        [HttpDelete("{id}")] // DELETE api/sports/{id}
+        [HttpPatch("{id}")]
+        [ProducesResponseType(typeof(UpdateSportDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UpdateSportDto>> PatchSport(Guid id, [FromBody] JsonPatchDocument<UpdateSportDto> patchDocument)
+        {
+            if (id == Guid.Empty || patchDocument == null)
+                return BadRequest();
+
+            try
+            {
+                var result = await _sportService.PatchSportAsync(id, patchDocument);
+
+                if(!result.Success)
+                    return NotFound(result.Message);
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating sport with id {id}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteSport(Guid id)
         {
+            if (id == Guid.Empty)
+                return BadRequest();
+
             try
             {
-                if (id == Guid.Empty)
-                    return BadRequest();
+                var deleted = await _sportService.DeleteSportAsync(id);
 
-                await _sportService.DeleteSportAsync(id);
+                if (!deleted)
+                    return NotFound($"Sport with ID {id} not found.");
+
                 return NoContent();
             }
             catch (Exception ex)

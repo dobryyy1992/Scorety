@@ -10,6 +10,9 @@ namespace Scorety.Server.Mappers
         {
             CreateMap<Sport, SportDto>();
             CreateMap<CreateSportDto, Sport>();
+            CreateMap<UpdateSportDto, Sport>();
+            CreateMap<Sport, CreateSportDto>();
+            CreateMap<Sport, UpdateSportDto>();
         }
     }
 }

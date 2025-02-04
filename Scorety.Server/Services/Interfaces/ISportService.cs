@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Scorety.Server.DTOs;
 using Scorety.Server.Models;
 
@@ -7,9 +8,9 @@ namespace Scorety.Server.Services.Interfaces
     {
         Task<IEnumerable<SportDto>> GetAllSportsAsync();
         Task<SportDto> GetSportByIdAsync(Guid id);
-        Task<Sport> GetSportByNameAsync(string name);
-        Task<Sport> CreateSportAsync(CreateSportDto sport);
-        Task<Sport> UpdateSportAsync(Guid id, UpdateSportDto sport);
-        Task DeleteSportAsync(Guid id);
+        Task<SportDto> CreateSportAsync(CreateSportDto sport);
+        Task<UpdateSportDto> UpdateSportAsync(Guid id, UpdateSportDto sport);
+        Task<(bool Success, string Message, UpdateSportDto? Data)> PatchSportAsync(Guid id, JsonPatchDocument<UpdateSportDto> patchDoc);
+        Task<bool> DeleteSportAsync(Guid id);
     }
 }

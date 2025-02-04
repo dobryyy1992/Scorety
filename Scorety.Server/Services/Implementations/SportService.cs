@@ -4,6 +4,9 @@ using Scorety.Server.Data.Repositories.Interfaces;
 using Scorety.Server.Models;
 using Scorety.Server.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Scorety.Server.Services.Implementations
 {
@@ -30,35 +33,54 @@ namespace Scorety.Server.Services.Implementations
             return sport == null ? null : _mapper.Map<SportDto>(sport);
         }
 
-        public async Task<Sport> GetSportByNameAsync(string name)
-        {
-            return await _sportRepository.GetByNameAsync(name);
-        }
-
-        public async Task<Sport> CreateSportAsync(CreateSportDto sportDto)
+        public async Task<SportDto> CreateSportAsync(CreateSportDto sportDto)
         {
             var sport = _mapper.Map<Sport>(sportDto);
 
             await _sportRepository.CreateAsync(sport);
-            return sport;
+            return _mapper.Map<SportDto>(sport);
         }
 
-        public async Task<Sport> UpdateSportAsync(Guid id, UpdateSportDto sportDto)
+        public async Task<UpdateSportDto> UpdateSportAsync(Guid id, UpdateSportDto sportDto)
         {
             var sport = await _sportRepository.GetByIdAsync(id);
 
-            sport.Description = sportDto.Description;
-            sport.IconUrl = sportDto.IconUrl;
-            sport.IsActive = sportDto.IsActive;
-            sport.IsPopular = sportDto.IsPopular;
+            if(sport == null)
+                return null;
+
+            _mapper.Map(sportDto, sport);
 
             await _sportRepository.UpdateAsync(sport);
-            return sport;
+            return _mapper.Map<UpdateSportDto>(sport);
         }
 
-        public async Task DeleteSportAsync(Guid id)
+        public async Task<(bool Success, string Message, UpdateSportDto? Data)> PatchSportAsync(Guid id, JsonPatchDocument<UpdateSportDto> patchDoc)
         {
-            await _sportRepository.DeleteAsync(id);
+            var sport = await _sportRepository.GetByIdAsync(id);
+
+            if (sport == null)
+                return (false, "Sport not found", null);
+
+            var sportDto = _mapper.Map<UpdateSportDto>(sport);
+            patchDoc.ApplyTo(sportDto);
+
+            var validationContext = new ValidationContext(sportDto);
+            var validationResults = new List<ValidationResult>();
+            if (!Validator.TryValidateObject(sportDto, validationContext, validationResults, false))
+            {
+                return (false, "Invalid patch data.", null);
+            }
+
+            _mapper.Map(sportDto, sport);
+
+            await _sportRepository.UpdateAsync(sport);
+
+            return (true, "Sport updated successfully.", _mapper.Map<UpdateSportDto>(sport));
+        }
+
+        public async Task<bool> DeleteSportAsync(Guid id)
+        {
+            return await _sportRepository.DeleteAsync(id);
         }
     }
 }

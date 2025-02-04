@@ -48,11 +48,15 @@ namespace Scorety.Server.Data.Repositories.Implementations
             return sport;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var sport = await GetByIdAsync(id);
+
+            if(sport == null)
+                return false;
+
             _context.Sports.Remove(sport);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

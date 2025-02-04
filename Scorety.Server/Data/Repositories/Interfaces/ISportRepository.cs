@@ -9,6 +9,6 @@ namespace Scorety.Server.Data.Repositories.Interfaces
         Task<Sport> GetByNameAsync(string name);
         Task<Sport> CreateAsync(Sport sport);
         Task<Sport> UpdateAsync(Sport sport);
-        Task DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
