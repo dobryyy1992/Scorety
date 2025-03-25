@@ -5,10 +5,12 @@ namespace Scorety.Server.Models
 {
     public class UserComment
     {
+        // Primary Key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        // Relationships 
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
 
@@ -21,6 +23,7 @@ namespace Scorety.Server.Models
         public Guid? PlayerId { get; set; }
         public virtual Player Player { get; set; }
 
+        // Basic Information
         [Required]
         [Column(TypeName = "text")]
         public string Content { get; set; }
@@ -31,6 +34,7 @@ namespace Scorety.Server.Models
         [Column(TypeName = "timestamp with time zone")]
         public DateTime? ModifiedAt { get; set; }
 
+        // Additional Details
         public int LikesCount { get; set; }
         public bool IsEdited { get; set; }
         public bool IsDeleted { get; set; }

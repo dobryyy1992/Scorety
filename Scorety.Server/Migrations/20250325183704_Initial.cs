@@ -7,7 +7,7 @@ using Scorety.Server.Data.Seeders;
 namespace Scorety.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Inital : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,13 +46,13 @@ namespace Scorety.Server.Migrations
                     Country = table.Column<string>(type: "varchar(100)", nullable: false),
                     City = table.Column<string>(type: "varchar(100)", nullable: false),
                     Timezone = table.Column<string>(type: "varchar(50)", nullable: false),
-                    PreferredNotificationType = table.Column<string>(type: "varchar(20)", nullable: false),
-                    SubscriptionType = table.Column<string>(type: "varchar(20)", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    IsVerified = table.Column<bool>(type: "boolean", nullable: false)
+                    IsVerified = table.Column<bool>(type: "boolean", nullable: false),
+                    PreferredNotificationType = table.Column<string>(type: "varchar(20)", nullable: false),
+                    SubscriptionType = table.Column<string>(type: "varchar(20)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,10 +147,11 @@ namespace Scorety.Server.Migrations
                     SportId = table.Column<Guid>(type: "uuid", nullable: false),
                     LeagueId = table.Column<Guid>(type: "uuid", nullable: true),
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    ShortName = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Type = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Code = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Type = table.Column<string>(type: "varchar(10)", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Location = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Country = table.Column<string>(type: "varchar(100)", nullable: false),
+                    City = table.Column<string>(type: "varchar(100)", nullable: false),
                     LogoUrl = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     FoundedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -220,11 +221,11 @@ namespace Scorety.Server.Migrations
                     TeamId = table.Column<Guid>(type: "uuid", nullable: true),
                     FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
                     LastName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Nickname = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ProfilePictureUrl = table.Column<string>(type: "text", nullable: false),
                     JerseyNumber = table.Column<string>(type: "varchar(20)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Nationality = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Nickname = table.Column<string>(type: "varchar(50)", nullable: false),
+                    ProfilePictureUrl = table.Column<string>(type: "text", nullable: false),
                     Statistics = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
@@ -485,6 +486,22 @@ namespace Scorety.Server.Migrations
                 sport.IconUrl,
                 sport.IsActive,
                 sport.IsPopular
+                    });
+            }
+
+            foreach (var league in LeagueSeeder.Leagues)
+            {
+                migrationBuilder.InsertData(
+                    table: "Leagues",
+                    columns: new[] { "Id", "Name", "Description", "SportId", "Country", "LogoUrl", "IsActive" },
+                    values: new object[] {
+                league.Id,
+                league.Name,
+                league.Description,
+                league.SportId,
+                league.Country,
+                league.LogoUrl,
+                league.IsActive
                     });
             }
         }

@@ -12,8 +12,8 @@ using Scorety.Server.Data;
 namespace Scorety.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250125092914_Inital")]
-    partial class Inital
+    [Migration("20250325183704_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,6 +244,18 @@ namespace Scorety.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -257,10 +269,6 @@ namespace Scorety.Server.Migrations
                     b.Property<Guid?>("LeagueId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
                     b.Property<string>("LogoUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -269,16 +277,12 @@ namespace Scorety.Server.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
                     b.Property<Guid>("SportId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");
 

@@ -8,10 +8,13 @@ using Scorety.Server.Enums;
 namespace Scorety.Server.Models
 {
     public class Sport
-    {
+    {   
+        // Primary Key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        // Basic Information
         [Required]
         [Column(TypeName = "varchar(100)")]
         public string Name { get; set; }
@@ -19,10 +22,13 @@ namespace Scorety.Server.Models
         public string Description { get; set; }
         [Column(TypeName = "varchar(50)")]
         public SportCategory Category { get; set; }
+
+        // Additional Details
         [Column(TypeName = "text")]
         public string IconUrl { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsPopular { get; set; }
+
         // Navigation Properties
         public virtual ICollection<League> Leagues { get; set; }
         public virtual ICollection<Team> Teams { get; set; }

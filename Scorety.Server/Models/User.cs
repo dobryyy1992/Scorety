@@ -6,9 +6,12 @@ namespace Scorety.Server.Models
 {
     public class User
     {
+        // Primary Key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        // Basic Information
         [Required]
         [Column(TypeName = "varchar(50)")]
         public string Username { get; set; }
@@ -20,7 +23,6 @@ namespace Scorety.Server.Models
         public string PasswordHash { get; set; }
         [Column(TypeName = "varchar(20)")]
         public UserRole Role { get; set; } = UserRole.User;
-        // Profile Information
         [Required]
         [Column(TypeName = "varchar(50)")]
         public string FirstName { get; set; }
@@ -28,27 +30,18 @@ namespace Scorety.Server.Models
         [Column(TypeName = "varchar(50)")]
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+
+        // Additional Details
         [Column(TypeName = "text")]
         public string ProfilePictureUrl { get; set; }
         [Column(TypeName = "text")]
         public string Bio { get; set; }
-        // Location Information
         [Column(TypeName = "varchar(100)")]
         public string Country { get; set; }
         [Column(TypeName = "varchar(100)")]
         public string City { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string Timezone { get; set; }
-        [Column(TypeName = "varchar(20)")]
-        public NotificationType PreferredNotificationType { get; set; } = NotificationType.Email;
-        [Column(TypeName = "varchar(20)")]
-        public SubscriptionType SubscriptionType { get; set; } = SubscriptionType.Free;
-        // Navigation Properties
-        public virtual ICollection<UserFavoriteSport> FavoriteSports { get; set; }
-        public virtual ICollection<UserFavoriteTeam> FavoriteTeams { get; set; }
-        public virtual ICollection<UserFavoritePlayer> FavoritePlayers { get; set; }
-        public virtual ICollection<UserComment> Comments { get; set; }
-        // Timestamps
         [Column(TypeName = "timestamp with time zone")]
         public DateTime LastLogin { get; set; }
         [Column(TypeName = "timestamp with time zone")]
@@ -57,6 +50,16 @@ namespace Scorety.Server.Models
         public DateTime? LastModifiedAt { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsVerified { get; set; } = false;
+        [Column(TypeName = "varchar(20)")]
+        public NotificationType PreferredNotificationType { get; set; } = NotificationType.Email;
+        [Column(TypeName = "varchar(20)")]
+        public SubscriptionType SubscriptionType { get; set; } = SubscriptionType.Free;
+
+        // Navigation Properties
+        public virtual ICollection<UserFavoriteSport> FavoriteSports { get; set; }
+        public virtual ICollection<UserFavoriteTeam> FavoriteTeams { get; set; }
+        public virtual ICollection<UserFavoritePlayer> FavoritePlayers { get; set; }
+        public virtual ICollection<UserComment> Comments { get; set; }
     }
 
 

@@ -6,15 +6,20 @@ namespace Scorety.Server.Models
 {
     public class Match
     {
+        // Primary Key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        // Relationships
         public Guid SeasonId { get; set; }
         public virtual Season Season { get; set; }
         public Guid HomeTeamId { get; set; }
         public virtual Team HomeTeam { get; set; }
         public Guid AwayTeamId { get; set; }
         public virtual Team AwayTeam { get; set; }
+
+        // Basic Information
         [Column(TypeName = "timestamp with time zone")]
         public DateTime ScheduledDate { get; set; }
         [Column(TypeName = "varchar(100)")]
@@ -26,6 +31,7 @@ namespace Scorety.Server.Models
         [Column(TypeName = "jsonb")]
         public string Statistics { get; set; }
         public bool IsHighlight { get; set; }
+        
         // Navigation Properties
         public virtual ICollection<UserComment> Comments { get; set; }
     }
