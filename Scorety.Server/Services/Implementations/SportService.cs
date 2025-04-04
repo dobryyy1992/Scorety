@@ -27,7 +27,7 @@ namespace Scorety.Server.Services.Implementations
             return _mapper.Map<IEnumerable<SportDto>>(sports);
         }
 
-        public async Task<SportDto> GetSportByIdAsync(Guid id)
+        public async Task<SportDto?> GetSportByIdAsync(Guid id)
         {
             var sport = await _sportRepository.GetByIdAsync(id);
             return sport == null ? null : _mapper.Map<SportDto>(sport);
@@ -41,7 +41,7 @@ namespace Scorety.Server.Services.Implementations
             return _mapper.Map<SportDto>(sport);
         }
 
-        public async Task<UpdateSportDto> UpdateSportAsync(Guid id, UpdateSportDto sportDto)
+        public async Task<UpdateSportDto?> UpdateSportAsync(Guid id, UpdateSportDto sportDto)
         {
             var sport = await _sportRepository.GetByIdAsync(id);
 
@@ -66,6 +66,7 @@ namespace Scorety.Server.Services.Implementations
 
             var validationContext = new ValidationContext(sportDto);
             var validationResults = new List<ValidationResult>();
+
             if (!Validator.TryValidateObject(sportDto, validationContext, validationResults, false))
             {
                 return (false, "Invalid patch data.", null);
@@ -74,7 +75,6 @@ namespace Scorety.Server.Services.Implementations
             _mapper.Map(sportDto, sport);
 
             await _sportRepository.UpdateAsync(sport);
-
             return (true, "Sport updated successfully.", _mapper.Map<UpdateSportDto>(sport));
         }
 

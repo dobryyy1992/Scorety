@@ -8,10 +8,10 @@ namespace Scorety.Server.DTOs
     {
         [StringLength(100, MinimumLength = 10)]
         public string Description { get; set; }
+
         [Url]
         public string IconUrl { get; set; }
         public bool IsActive { get; set; }
         public bool IsPopular { get; set; }
-
     }
 }
