@@ -145,7 +145,7 @@ namespace Scorety.Server.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     SportId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LeagueId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LeagueId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
                     Code = table.Column<string>(type: "varchar(50)", nullable: false),
                     Type = table.Column<string>(type: "varchar(10)", nullable: false),
@@ -154,7 +154,7 @@ namespace Scorety.Server.Migrations
                     City = table.Column<string>(type: "varchar(100)", nullable: false),
                     LogoUrl = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    FoundedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    FoundedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

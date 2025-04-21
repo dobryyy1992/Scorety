@@ -13,6 +13,7 @@ namespace Scorety.Server.Data
         public DbSet<Sport> Sports { get; set; }
         public DbSet<League> Leagues { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<NBATeam> NBATeams { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Season> Seasons { get; set; }
         public DbSet<Match> Matches { get; set; }
@@ -24,6 +25,12 @@ namespace Scorety.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Configure Team inheritance with a different discriminator column name
+            modelBuilder.Entity<Team>()
+                .HasDiscriminator<string>("TeamType")
+                .HasValue<Team>("Team")
+                .HasValue<NBATeam>("NBATeam");
 
             // Configure many-to-many relationships
             modelBuilder.Entity<UserFavoritePlayer>()

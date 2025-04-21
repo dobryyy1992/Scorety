@@ -18,12 +18,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(SportProfile).Assembly); 
+builder.Services.AddAutoMapper(typeof(SportProfile).Assembly);
 
 builder.Services.AddScoped<ISportRepository, SportRepository>();
 builder.Services.AddScoped<ITeamRepository, TeamRepository>();
 builder.Services.AddScoped<ISportService, SportService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+builder.Services.AddScoped<INBAApiService, NBAApiService>();
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

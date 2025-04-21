@@ -13,6 +13,10 @@ namespace Scorety.Server.Mappers
             CreateMap<UpdateTeamDto, Team>();
             CreateMap<Team, CreateTeamDto>();
             CreateMap<Team, UpdateSportDto>();
+
+            // NBA Team mappings
+            CreateMap<NBATeam, NBATeamDto>();
+            CreateMap<NBATeamDto, NBATeam>();
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Scorety.Server.DTOs
         public string City { get; set; }
         public string LogoUrl { get; set; }
         public bool IsActive { get; set; }
-        public DateTime FoundedDate { get; set; }
+        public DateTime? FoundedDate { get; set; }
     }
 }

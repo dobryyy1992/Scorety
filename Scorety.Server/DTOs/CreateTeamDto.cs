@@ -16,7 +16,6 @@ namespace Scorety.Server.DTOs
         [Required]
         public TeamType Type { get; set; }
 
-        [Required]
         [StringLength(1000, MinimumLength = 10)]
         public string Description { get; set; }
 
@@ -35,7 +34,6 @@ namespace Scorety.Server.DTOs
         [Required]
         public bool IsActive { get; set; }
 
-        [Required]
         [DataType(DataType.Date)]
         public DateTime FoundedDate { get; set; }
     }
