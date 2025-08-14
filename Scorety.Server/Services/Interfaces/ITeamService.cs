@@ -5,7 +5,7 @@ namespace Scorety.Server.Services.Interfaces
 {
     public interface ITeamService
         {
-        Task<IEnumerable<TeamDto>> GetAllTeamsAsync();
+        Task<IEnumerable<TeamDto>> GetAllTeamsAsync(Guid sportId);
         Task<TeamDto?> GetTeamByIdAsync(Guid id);
         Task<TeamDto> CreateTeamAsync(CreateTeamDto team);
         Task<TeamDto?> UpdateTeamAsync(Guid id, UpdateTeamDto team);

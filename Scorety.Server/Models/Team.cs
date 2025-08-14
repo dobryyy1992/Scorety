@@ -31,7 +31,7 @@ namespace Scorety.Server.Models
         public TeamType Type { get; set; }
 
         [Column(TypeName = "text")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(100)")]

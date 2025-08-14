@@ -4,7 +4,7 @@ namespace Scorety.Server.Data.Repositories.Interfaces
 {
     public interface ITeamRepository
     {
-        Task<IEnumerable<Team>> GetAllAsync();
+        Task<IEnumerable<Team>> GetAllAsync(Guid sportId);
         Task<Team> GetByIdAsync(Guid id);
         Task<Team> GetByNameAsync(string name);
         Task<Team> CreateAsync(Team team);

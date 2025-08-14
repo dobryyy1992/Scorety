@@ -17,13 +17,13 @@ namespace Scorety.Server.Controllers
             _teamService = teamService;
         }
 
-        [HttpGet]
+        [HttpGet("sport/{sportId}")]
         [ProducesResponseType(typeof(List<TeamDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<TeamDto>>> GetAllTeams()
+        public async Task<ActionResult<List<TeamDto>>> GetAllTeams(Guid sportId)
         {
             try
             {
-                var teams = await _teamService.GetAllTeamsAsync();
+                var teams = await _teamService.GetAllTeamsAsync(sportId);
                 return Ok(teams.ToList());
             }
             catch (Exception ex)

@@ -13,9 +13,9 @@ namespace Scorety.Server.Data.Repositories.Implementations
             _context = context;
         }  
 
-        public async Task<IEnumerable<Team>> GetAllAsync()
+        public async Task<IEnumerable<Team>> GetAllAsync(Guid sportId)
         {
-            return await _context.Teams.ToListAsync();
+            return await _context.Teams.Where(t => t.SportId == sportId).ToListAsync();
         }
 
         public async Task<Team> GetByIdAsync(Guid id)

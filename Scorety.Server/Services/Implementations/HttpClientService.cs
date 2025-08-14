@@ -35,7 +35,7 @@ namespace Scorety.Server.Services.Implementations
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error making GET request to {Url}", url);
+                _logger.LogError(ex, $"Error making GET request to {url}");
                 throw;
             }
         }

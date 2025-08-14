@@ -19,9 +19,9 @@ namespace Scorety.Server.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TeamDto>> GetAllTeamsAsync()
+        public async Task<IEnumerable<TeamDto>> GetAllTeamsAsync(Guid sportId)
         {
-            var teams = await _teamRepository.GetAllAsync();
+            var teams = await _teamRepository.GetAllAsync(sportId);
             return _mapper.Map<IEnumerable<TeamDto>>(teams);
         }
 
