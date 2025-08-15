@@ -17,7 +17,7 @@ namespace Scorety.Server.Services.Implementations
         {
             _httpClientService = httpClientService;
             _logger = logger;
-            _apiKey = Environment.GetEnvironmentVariable("RAPIDAPI_NBA_KEY", EnvironmentVariableTarget.Machine) ?? throw new Exception("RAPIDAPI_NBA_KEY is missing");
+            _apiKey = Environment.GetEnvironmentVariable("RAPIDAPI_KEY", EnvironmentVariableTarget.Machine) ?? throw new Exception("RAPIDAPI_NBA_KEY is missing");
         }
 
         public async Task<IEnumerable<TeamDto>> GetAllNBATeamsAsync()
