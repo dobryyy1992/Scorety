@@ -18,8 +18,10 @@ namespace Scorety.Server.Models
         [Required]
         [Column(TypeName = "varchar(100)")]
         public string Name { get; set; }
+        
         [Column(TypeName = "text")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
+
         [Column(TypeName = "varchar(100)")]
         public string Country { get; set; }
 

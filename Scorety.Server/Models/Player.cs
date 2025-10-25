@@ -20,21 +20,27 @@ namespace Scorety.Server.Models
         [Required]
         [Column(TypeName = "varchar(100)")]
         public string FirstName { get; set; }
+
         [Required]
         [Column(TypeName = "varchar(100)")]
         public string LastName { get; set; }
+
         [Column(TypeName = "varchar(20)")]
         public string JerseyNumber { get; set; }
+
         [Column(TypeName = "timestamp with time zone")]
         public DateTime DateOfBirth { get; set; }
+
         [Column(TypeName = "varchar(100)")]
         public string Nationality { get; set; }
 
         // Additional Details
         [Column(TypeName = "varchar(50)")]
         public string Nickname { get; set; }
+
         [Column(TypeName = "text")]
         public string ProfilePictureUrl { get; set; }
+        
         [Column(TypeName = "jsonb")]
         public string Statistics { get; set; }
         

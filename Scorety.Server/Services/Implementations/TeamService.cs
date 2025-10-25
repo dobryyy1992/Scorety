@@ -78,7 +78,15 @@ namespace Scorety.Server.Services.Implementations
 
         public async Task<bool> DeleteTeamAsync(Guid id)
         {
-            return await _teamRepository.DeleteAsync(id);
+            try
+            {
+                return await _teamRepository.DeleteAsync(id);
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+
         }
     }
 }

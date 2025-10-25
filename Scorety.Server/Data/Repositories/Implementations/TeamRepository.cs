@@ -52,9 +52,6 @@ namespace Scorety.Server.Data.Repositories.Implementations
         {
             var team = await GetByIdAsync(id);
 
-            if (team == null)
-                return false;
-
             _context.Teams.Remove(team);
             return await _context.SaveChangesAsync() > 0;
         }

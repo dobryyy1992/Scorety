@@ -10,6 +10,7 @@ namespace Scorety.Server.Models.External
         public string Logo { get; set; }
         public bool NbaFranchise { get; set; }
         public bool AllStar { get; set; }
-        public LeagueInfo Leagues { get; set; }
+        public NBALeagueInfo Leagues { get; set; }
     }
+    
 }

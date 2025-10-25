@@ -22,12 +22,15 @@ namespace Scorety.Server.Models
         // Basic Information
         [Column(TypeName = "timestamp with time zone")]
         public DateTime ScheduledDate { get; set; }
+
         [Column(TypeName = "varchar(100)")]
         public string Venue { get; set; }
+
         [Column(TypeName = "varchar(50)")]
         public MatchStatus Status { get; set; }
         public int? HomeScore { get; set; }
         public int? AwayScore { get; set; }
+        
         [Column(TypeName = "jsonb")]
         public string Statistics { get; set; }
         public bool IsHighlight { get; set; }

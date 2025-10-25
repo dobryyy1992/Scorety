@@ -2,18 +2,18 @@ using System.Text.Json.Serialization;
 
 namespace Scorety.Server.Models.External
 {
-    public class LeagueInfo
+    public class NBALeagueInfo
     {
         [JsonPropertyName("standard")]
-        public LeagueDetails Standard { get; set; }
+        public NBALeagueDetails Standard { get; set; }
         
         [JsonPropertyName("vegas")]
-        public LeagueDetails Vegas { get; set; }
+        public NBALeagueDetails Vegas { get; set; }
         
         [JsonPropertyName("utah")]
-        public LeagueDetails Utah { get; set; }
+        public NBALeagueDetails Utah { get; set; }
         
         [JsonPropertyName("sacramento")]
-        public LeagueDetails Sacramento { get; set; }
+        public NBALeagueDetails Sacramento { get; set; }
     }
 } 
